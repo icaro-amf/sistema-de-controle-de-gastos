@@ -14,12 +14,16 @@ namespace Sistema_de_Controles_de_Gastos.Repositories
         }
         public async Task<PessoaModel> BuscarPessoaPorId(int id)
         {
-            return await _dbContext.Pessoas.FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.Pessoas
+                .Include(p => p.Transacoes)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<PessoaModel>> BuscarTodasPessoas()
         {
-            return await _dbContext.Pessoas.ToListAsync();
+            return await _dbContext.Pessoas
+                .Include(p => p.Transacoes)
+                .ToListAsync();
         }
 
         public async Task<PessoaModel> AdicionarNovaPessoa(PessoaModel pessoa)
