@@ -16,14 +16,21 @@ namespace Sistema_de_Controles_de_Gastos
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            builder.Services.AddEntityFrameworkSqlServer()
+            builder.Services.AddDbContext<SistemaControleGastosDbContext>()
                 .AddDbContext<SistemaControleGastosDbContext>(
-                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("Database"))
+                    options => options.UseSqlite(builder.Configuration.GetConnectionString("Database"))
                 );
 
             builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+            builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<SistemaControleGastosDbContext>();
+                db.Database.EnsureCreated();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

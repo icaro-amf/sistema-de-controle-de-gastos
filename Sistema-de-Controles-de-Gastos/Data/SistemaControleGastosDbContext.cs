@@ -14,9 +14,15 @@ namespace Sistema_de_Controles_de_Gastos.Data
         public DbSet<PessoaModel> Pessoas { get; set; }
         public DbSet<TransacaoModel> Transacoes { get; set; }
 
+        //Cada transacao esta linkada a uma pessoa, se a pessoa for deletada, todas as transacoes dela tambem serao deletadas.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); //ainda tenho que completar todas as chamadas de modelBuilder para configurar as tabelas do bd
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TransacaoModel>()
+               .HasOne<PessoaModel>()
+               .WithMany(p => p.Transacoes)
+               .HasForeignKey(t => t.PessoaId)
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
