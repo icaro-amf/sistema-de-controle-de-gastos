@@ -16,7 +16,7 @@ namespace Sistema_de_Controles_de_Gastos.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); //ainda tenho que completar todas as chamadas de modelBuilder para configurar as tabelas do bd
         }
     }
 }

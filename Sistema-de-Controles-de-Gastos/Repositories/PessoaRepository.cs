@@ -14,7 +14,7 @@ namespace Sistema_de_Controles_de_Gastos.Repositories
         }
         public async Task<PessoaModel> BuscarPessoaPorId(int id)
         {
-            return await _dbContext.Pessoas.FirstOrDefaultAsync(p => p.PessoaId == id);
+            return await _dbContext.Pessoas.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<PessoaModel>> BuscarTodasPessoas()
