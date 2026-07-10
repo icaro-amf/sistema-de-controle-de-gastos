@@ -7,7 +7,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TotaisController : Controller
+    public class TotaisController : ControllerBase
     {
         private readonly SistemaControleGastosDbContext _dbContext;
         public TotaisController(SistemaControleGastosDbContext dbContext)

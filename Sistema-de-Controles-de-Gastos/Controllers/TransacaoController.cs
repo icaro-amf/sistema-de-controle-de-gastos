@@ -7,7 +7,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransacaoController : Controller
+    public class TransacaoController : ControllerBase
     {
         private readonly ITransacaoRepository _transacaoRepository;
         private readonly IPessoaRepository _pessoaRepository;
