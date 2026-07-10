@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Sistema_de_Controles_de_Gastos.Data;
 using Sistema_de_Controles_de_Gastos.Repositories;
 using Sistema_de_Controles_de_Gastos.Repositories.Interfaces;
+
 namespace Sistema_de_Controles_de_Gastos
 {
     public class Program
@@ -12,6 +13,7 @@ namespace Sistema_de_Controles_de_Gastos
 
             // Add services to the container.
 
+            //Metodo para adicionar o enumeração como string no JSON da requisição e resposta da API.
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions
@@ -26,6 +28,10 @@ namespace Sistema_de_Controles_de_Gastos
                     options => options.UseSqlite(builder.Configuration.GetConnectionString("Database"))
                 );
 
+            // Registra os repositórios: sempre que um Controller pedir
+            // IPessoaRepository/ITransacaoRepository no construtor, o ASP.NET
+            // Core vai injetar PessoaRepository/TransacaoRepository automaticamente.
+            // AddScoped = uma instância nova por requisição HTTP.
             builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
             builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 

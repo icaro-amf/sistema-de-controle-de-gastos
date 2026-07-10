@@ -5,6 +5,7 @@ using Sistema_de_Controles_de_Gastos.Repositories.Interfaces;
 
 namespace Sistema_de_Controles_de_Gastos.Controllers
 {
+    //Endpoints de gerenciamento de pessoas: criação, listagem e deleção.
     [Route("api/[controller]")]
     [ApiController]
     public class PessoaController : ControllerBase
@@ -16,6 +17,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             _pessoaRepository = pessoaRepository;
         }
 
+        //GET /api/pessoas — Lista todas as pessoas cadastradas.
         [HttpGet]
         public async Task<ActionResult<List<PessoaModel>>> BuscarTodasPessoas()
         {
@@ -23,6 +25,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             return Ok(pessoas);
         }
 
+        //Endpoint extra - GET /api/pessoas/{id} — Lista pessoas com id específico.
         [HttpGet("{id:int}")]
         public async Task<ActionResult<PessoaModel>> BuscarPessoaPorId(int id)
         {
@@ -36,6 +39,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             return Ok(pessoa);
         }
 
+        //POST /api/pessoas — Cadastra uma nova pessoa.
         [HttpPost]
         public async Task<ActionResult<PessoaModel>> AdicionarNovaPessoa(PessoaModel pessoa)
         {
@@ -54,6 +58,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             return Ok(pessoaCriada);
         }
 
+        //DELETE /api/pessoas/{id} — Remove uma pessoa do sistema.
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeletarPessoa(int id)
         {

@@ -5,11 +5,15 @@ using Sistema_de_Controles_de_Gastos.Repositories.Interfaces;
 
 namespace Sistema_de_Controles_de_Gastos.Controllers
 {
+    //Endpoints de gerenciamento de transações (receitas e despesas).
     [Route("api/[controller]")]
     [ApiController]
     public class TransacaoController : ControllerBase
     {
         private readonly ITransacaoRepository _transacaoRepository;
+        // Precisamos também do repositório de Pessoa aqui, mesmo sendo o
+        // TransacaoController: é dele que vem a validação "essa pessoa existe?"
+        // e o dado da idade, usado na regra do menor de idade.
         private readonly IPessoaRepository _pessoaRepository;
 
         public TransacaoController(
@@ -19,7 +23,8 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             _transacaoRepository = transacaoRepository;
             _pessoaRepository = pessoaRepository;
         }
-        
+
+        // GET /api/transacao — Lista todas as transações cadastradas no sistema.
         [HttpGet]
         public async Task<ActionResult<List<TransacaoModel>>> BuscarTodasTransacoes()
         {
@@ -27,6 +32,14 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             return Ok(transacoes);
         }
 
+        // POST /api/transacao — Cadastra uma nova transação (receita ou despesa).
+        /// Regras de negócio aplicadas nesta ação, na ordem em que são checadas:
+        /// 1) Descrição e valor são obrigatórios/válidos (validação básica de formato).
+        /// 2) A pessoa informada em PessoaId precisa existir previamente no cadastro
+        ///    — não é permitido criar uma transação sem dono.
+        /// 3) Se a pessoa for menor de idade (Idade < 18), somente transações do
+        ///    tipo Despesa podem ser cadastradas para ela; tentativas de cadastrar
+        ///    Receita para um menor são rejeitadas.
         [HttpPost]
         public async Task<ActionResult<TransacaoModel>> AdicionarNovaTransacao(TransacaoModel transacao)
         {
