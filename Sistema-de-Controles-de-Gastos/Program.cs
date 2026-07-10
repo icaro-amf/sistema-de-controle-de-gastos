@@ -35,6 +35,17 @@ namespace Sistema_de_Controles_de_Gastos
             builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
             builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 
+            const string PoliticaFrontEnd = "FrontEnd";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(PoliticaFrontEnd, policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
@@ -42,6 +53,7 @@ namespace Sistema_de_Controles_de_Gastos
                 var db = scope.ServiceProvider.GetRequiredService<SistemaControleGastosDbContext>();
                 db.Database.EnsureCreated();
             }
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -51,8 +63,9 @@ namespace Sistema_de_Controles_de_Gastos
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCors(PoliticaFrontEnd);
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

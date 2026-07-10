@@ -70,7 +70,7 @@ namespace Sistema_de_Controles_de_Gastos.Controllers
             }
 
             await _pessoaRepository.DeletarPessoa(id);
-            return Ok($"Pessoa {id} removida com sucesso.");
+            return NoContent();//troca para NoContent (204) facilitar comunicacao com o front
         }
     }
 } 
