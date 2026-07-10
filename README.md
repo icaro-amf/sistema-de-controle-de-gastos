@@ -93,10 +93,10 @@ lembre-se de:
 | Método | Rota | Descrição | Corpo (JSON) |
 |---|---|---|---|
 | `GET` | `/api/transacao` | Lista todas as transações cadastradas | — |
-| `POST` | `/api/transacao` | Cadastra uma nova transação | `{ "descricao": "Salário", "valor": 3000, "tipo": "0", "pessoaId": 1 }` |
+| `POST` | `/api/transacao` | Cadastra uma nova transação | `{ "descricao": "Salário", "valor": 3000, "tipo": "Receita", "pessoaId": 1 }` |
  
-> O campo `tipo` aceita os valores dos enums `"0"` ou `"1"`
-> (correspondentes ao enum `TipoTransacao` -> `"Receita"` ou `"Despesa"` respectivamente).
+> O campo `tipo` aceita os valores de texto `"Receita"` ou `"Despesa"`
+> (correspondentes ao enum `TipoTransacao`).
  
 ### Totais
  
