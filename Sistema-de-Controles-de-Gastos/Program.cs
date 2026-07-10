@@ -61,8 +61,6 @@ namespace Sistema_de_Controles_de_Gastos
                 app.MapOpenApi();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseCors(PoliticaFrontEnd);
 
             app.UseAuthorization();
